@@ -12,7 +12,7 @@ if %q1% == exit goto exit
 goto q1
 :serve
 :manual
-start cmd /t:0a /k "@echo off && title %cd% && cd "
+start cmd /t:0a /k "@echo off && title cd && cd "
 goto q1
 
 
