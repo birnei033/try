@@ -1,5 +1,5 @@
-<?php include "functions.php" ?>
-<?php include "includes/header.php" ?>
+<?php include "functions.php"; ?>
+<?php include "includes/header.php";?>
 
 	<section class="content">
 
@@ -19,9 +19,7 @@
 
 
 		/* 
-
-		   Step 1:  Use the Echo Function to say hello with html h1 tags embedded
-		   inside php.
+		   Step 1:  Use the Echo Function to say hello with html h1                  tags embedded inside php.
 
 
 		   Step 2: Write a comment above the echo function and explain
@@ -30,15 +28,10 @@
 
 		   */
 
-
-
-		
-
-
 		?>
 
 	
 
 		</article><!--MAIN CONTENT-->
 
-<?php include "includes/footer.php" ?>
+<?php include "includes/footer.php"; ?>

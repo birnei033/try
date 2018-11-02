@@ -7,21 +7,24 @@
 <body>
    
 <?php 
-
 $number = 10;
+$number = 1000;
 
-$number = 345;
+$number = "Edwin";
+echo $number . "<br>";
 
-define('NUMBER', 1000);
+define("NAME", 1000);
 
-//NUMBER = 34532;
+echo NAME;
 
-echo 'constant ' . NUMBER;
-echo "<br>";
-echo 'variable ' .  $number;
+
+
     
     
-?>   
+    
+?>
+   
+ 
    
     
 </body>

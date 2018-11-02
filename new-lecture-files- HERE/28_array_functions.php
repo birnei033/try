@@ -7,10 +7,23 @@
 <body>
 
 <?php 
+
+$list = [343,34,323,23,54,232,453];
+
+echo max($list);
+
+echo "<br>";
     
-echo time();    
+echo min($list);
+
+
+echo "<br>";
+
+sort($list);
     
-    
+print_r($list);
+
+
 ?>
 
 </body>
