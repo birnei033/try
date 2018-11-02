@@ -16,7 +16,8 @@
 
 
 		<?php  
-
+			// this edisplays hello on the browser
+			echo "<h1>Hello</h1>";
 
 		/* 
 		   Step 1:  Use the Echo Function to say hello with html h1                  tags embedded inside php.
