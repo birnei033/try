@@ -1,13 +1,113 @@
 <?php
 
+
+//===== DATABASE HELPER FUNCTIONS =====//
+
+function stmtConnection(){
+    global $connection;
+    return mysqli_stmt_init($connection);
+}
+
+
+
+
 function redirect($location){
-
-
     header("Location:" . $location);
     exit;
+}
+
+function query($query){
+    global $connection;
+    $result = mysqli_query($connection, $query);
+    confirmQuery($result);
+    return $result;
+}
+
+function fetchRecords($result){
+    return mysqli_fetch_array($result);
+}
+
+function count_records($result){
+    return mysqli_num_rows($result);
+}
+
+//===== END DATABASE HELPERS =====//
+
+
+//===== GENERAL HELPERS =====//
+
+function get_user_name(){
+    return isset($_SESSION['username']) ? $_SESSION['username'] : null;
+}
+
+//===== END GENERAL HELPERS =====//
+
+
+//===== AUTHENTICATION HELPERS =====//
+
+function is_admin() {
+    if(isLoggedIn()){
+        $result = query("SELECT user_role FROM users WHERE user_id=".$_SESSION['user_id']."");
+        $row = fetchRecords($result);
+        if($row['user_role'] == 'admin'){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    return false;
+}
+
+//===== END AUTHENTICATION HELPERS =====//
+
+
+//===== USER SPECIFIC HELPERS=====//
+
+function is_the_logged_in_user_owner($post_id){
+    $result = query("SELECT user_id FROM posts WHERE post_id={$post_id} AND user_id=".loggedInUserId()."");
+    return count_records($result) >= 1 ? true : false;
+}
+
+function get_all_user_posts(){
+    return query("SELECT * FROM posts WHERE user_id=".loggedInUserId()."");
+}
+
+
+function get_all_posts_user_comments(){
+    return query("SELECT * FROM posts
+    INNER JOIN comments ON posts.post_id = comments.comment_post_id
+    WHERE user_id=".loggedInUserId()."");
 
 }
 
+function get_all_user_categories(){
+    return query("SELECT * FROM categories WHERE user_id=".loggedInUserId()."");
+}
+
+function get_all_user_published_posts(){
+    return query("SELECT * FROM posts WHERE user_id=".loggedInUserId()." AND post_status='published'");
+}
+
+function get_all_user_draft_posts(){
+    return query("SELECT * FROM posts WHERE user_id=".loggedInUserId()." AND post_status='draft'");
+}
+
+
+function get_all_user_approved_posts_comments(){
+    return query("SELECT * FROM posts
+    INNER JOIN comments ON posts.post_id = comments.comment_post_id
+    WHERE user_id=".loggedInUserId()." AND comment_status='approved'");
+}
+
+
+function get_all_user_unapproved_posts_comments(){
+    return query("SELECT * FROM posts
+    INNER JOIN comments ON posts.post_id = comments.comment_post_id
+    WHERE user_id=".loggedInUserId()." AND comment_status='unapproved'");
+}
+
+
+//===== END USER SPECIFIC HELPERS=====//
 
 function ifItIsMethod($method=null){
 
@@ -22,31 +122,44 @@ function ifItIsMethod($method=null){
 }
 
 function isLoggedIn(){
-
     if(isset($_SESSION['user_role'])){
-
         return true;
-
-
     }
-
-
    return false;
+}
 
+
+function loggedInUserId(){
+    if(isLoggedIn()){
+        $result = query("SELECT * FROM users WHERE username='" . $_SESSION['username'] ."'");
+        confirmQuery($result);
+        $user = mysqli_fetch_array($result);
+        return mysqli_num_rows($result) >= 1 ? $user['user_id'] : false;
+    }
+    return false;
+
+}
+
+function userLikedThisPost($post_id){
+    $result = query("SELECT * FROM likes WHERE user_id=" .loggedInUserId() . " AND post_id={$post_id}");
+    confirmQuery($result);
+    return mysqli_num_rows($result) >= 1 ? true : false;
 }
 
 function checkIfUserIsLoggedInAndRedirect($redirectLocation=null){
-
     if(isLoggedIn()){
-
         redirect($redirectLocation);
-
     }
 
 }
 
+function getPostlikes($post_id){
 
+    $result = query("SELECT * FROM likes WHERE post_id=$post_id");
+    confirmQuery($result);
+    echo mysqli_num_rows($result);
 
+}
 
 
 function escape($string) {
@@ -265,28 +378,7 @@ if(isset($_GET['unapprove'])){
 }
 
 
-function is_admin($username) {
 
-    global $connection; 
-
-    $query = "SELECT user_role FROM users WHERE username = '$username'";
-    $result = mysqli_query($connection, $query);
-    confirmQuery($result);
-
-    $row = mysqli_fetch_array($result);
-
-
-    if($row['user_role'] == 'admin'){
-
-        return true;
-
-    }else {
-
-
-        return false;
-    }
-
-}
 
 
 
@@ -396,6 +488,7 @@ function register_user($username, $email, $password){
 
          if (password_verify($password,$db_user_password)) {
 
+             $_SESSION['user_id'] = $db_user_id;
              $_SESSION['username'] = $db_username;
              $_SESSION['firstname'] = $db_user_firstname;
              $_SESSION['lastname'] = $db_user_lastname;

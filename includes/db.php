@@ -23,10 +23,4 @@ mysqli_query($connection,$query);
 //}
 
 
-
-
-
-
-
-
 ?>
