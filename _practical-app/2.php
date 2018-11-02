@@ -28,8 +28,14 @@
 		 
 			 */
 
-		
-
+		$number1 = 10;
+		$number2 = 20;
+		echo $number1 ." + ". $number2 . " = ". ($number1 + $number2);
+		echo "<br>";
+		$arr = [$number1, $number2];
+		$assoc = ["number"=>$number1];
+		echo "array ". $arr[0] . "<br>";
+		echo "associative array: ". $assoc["number"];
 
 		?>
 
