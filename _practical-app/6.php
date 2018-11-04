@@ -1,5 +1,6 @@
 
 <?php include "functions.php"; ?>
+
 <?php include "includes/header.php";?>
 
 	<section class="content">
@@ -9,10 +10,21 @@
 		<?php Navigation();?>
 			
 		</aside><!--SIDEBAR-->
-
+ 
 
 <article class="main-content col-xs-8">
- 
+<?php
+$url = $_SERVER['REQUEST_URI'];
+	if (isset($_POST["submit"])) {
+		echo "<h1>".$_POST["name"]."</h1>";
+	}
+	
+?>
+<!-- change the action link according to your directory -->
+ <form action="<?php echo $url; ?>" method="post">
+	<input type="text" name="name" id="name">
+	<input type="submit" value="Submit" name="submit">
+ </form>
 
 	<?php  
 
