@@ -14,8 +14,12 @@
 		
 	<article class="main-content col-xs-8">
 	
-	
+		
 	<?php  
+
+		$password = "thisismypassword";
+		$incrypted = crypt($password, "hgjhfjhgjhfhf");
+		echo $incrypted;
 
 	/*  Step 1 -Make a variable with some text as value
 

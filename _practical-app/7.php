@@ -18,6 +18,30 @@
 	
 	<?php  
 
+	define("USER", "root");
+	define("PASSWORD", "");
+	define("DATABASE", "udemy_demo");
+	define("SERVER", "localhost");
+
+	$connect = new mysqli(SERVER, USER, PASSWORD, DATABASE);
+
+	if ($connect->connect_error) {
+		die("Connection failed ". $connect->connect_error);
+	}
+
+	echo "We are connected to database.<br><br>";
+
+	$query = "SELECT * FROM users";
+	$result = $connect->query($query);
+	if ($result->num_rows > 0) {
+		echo "<b>Database Result</b> <br>";
+		while ($row = $result->fetch_assoc()) {
+			echo "<b>id:</b> " . $row["ID"]. " <br> <b>Name:</b> " . $row["name"];  
+		}
+	}else{
+		echo "Database is Empty";
+	}
+
 	/*  Step 1 - Create a database in PHPmyadmin
 
 		Step 2 - Create a table like the one from the lecture
