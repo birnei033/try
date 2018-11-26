@@ -17,7 +17,7 @@ include "includes/post_query.php";
             <div class="col-md-8">
 
             <?php
-            
+            if ($count) { 
             while ($post = mysqli_fetch_assoc($posts)) {
             
             ?>
@@ -36,14 +36,14 @@ include "includes/post_query.php";
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> <?php echo $post["post_date"];?></p>
                 <hr>
-                <img class="img-responsive" src="http://placehold.it/900x300" alt="">
+                <img class="img-responsive" src="images/<?php echo $post["post_image"]; ?>" alt="<?php $post["post_title"]; ?>">
                 <hr>
                 <p><?php echo $post["post_content"];?></p>
                 <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
                 <hr>
 
-            <?php  } ?>
+            <?php  }  ?>
                 <!-- Pager -->
                 <ul class="pager">
                     <li class="previous">
@@ -54,6 +54,13 @@ include "includes/post_query.php";
                     </li>
                 </ul>
 
+            <?php }else{ ?>
+
+             <h2>
+                    No Result Found
+                </h2>
+            <?php }
+             ?>
             </div>
 
             <!-- Blog Sidebar Widgets Column -->
