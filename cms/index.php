@@ -15,17 +15,17 @@ include "includes/post_query.php";
 
             <!-- Blog Entries Column -->
             <div class="col-md-8">
-
+            <h1 class="page-header">
+                    <?php echo "Posts" ?>
+                    <small>Secondary Text</small>
+                </h1>
             <?php
             if ($count) { 
             while ($post = mysqli_fetch_assoc($posts)) {
             
             ?>
 
-                <h1 class="page-header">
-                    <?php echo "Page Heading" ?>
-                    <small>Secondary Text</small>
-                </h1>
+
 
                 <!-- First Blog Post -->
                 <h2>
@@ -36,6 +36,7 @@ include "includes/post_query.php";
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> <?php echo $post["post_date"];?></p>
                 <hr>
+                
                 <img class="img-responsive" src="images/<?php echo $post["post_image"]; ?>" alt="<?php $post["post_title"]; ?>">
                 <hr>
                 <p><?php echo $post["post_content"];?></p>
